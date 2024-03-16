@@ -27,9 +27,11 @@ public class TestBase {
         setEnvironment();
     }
 
-    @BeforeSuite(alwaysRun = true) @Parameters({ "browser", "version",
+    @BeforeSuite(alwaysRun = true)
+    @Parameters({"browser", "version",
             "platform", "environment",
-            "report" }) protected void setBrowserConfiguration(
+            "report"})
+    protected void setBrowserConfiguration(
             @Optional("chrome") String browserType,
             @Optional("") String browserVersion,
             @Optional("Desktop") String platform,

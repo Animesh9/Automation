@@ -9,7 +9,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.BrowserType;
 
 import java.net.MalformedURLException;
 import java.util.Collections;
@@ -21,7 +20,7 @@ public class DriverFactory {
 
     public WebDriver initDriver(String browserType, String browserVersion,
                                 String platform, String environment) throws MalformedURLException {
-        if (platform.equals(Platform.DESKTOP.getPlatformName())) {
+        /*if (platform.equals(Platform.DESKTOP.getPlatformName())) {
             switch (browserType) {
                 case BrowserType.CHROME:
                     WebDriverManager.getInstance(DriverManagerType.CHROME).setup();
@@ -46,7 +45,7 @@ public class DriverFactory {
                             "Cannot create driver for unknown browser type");
             }
 
-        }  else if (platform.equals(Platform.IOS.getPlatformName())) {
+        } else if (platform.equals(Platform.IOS.getPlatformName())) {
 
             //TODO
 
@@ -54,7 +53,7 @@ public class DriverFactory {
 
             //TODO
 
-        }
+        }*/
         return driver;
     }
 
