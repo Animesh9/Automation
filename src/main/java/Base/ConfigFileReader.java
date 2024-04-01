@@ -18,8 +18,8 @@ public class ConfigFileReader {
         try {
             prop.load(new FileReader(
                     new File(FileEnum.SELENIUM_PROPERTIES_FILE.getFilename())));
-            prop.load(new FileReader(
-                    new File(FileEnum.ENV_PROPERTIES.getFilename())));
+            /*prop.load(new FileReader(
+                    new File(FileEnum.ENV_PROPERTIES.getFilename())));*/
         } catch (IOException e) {
             e.printStackTrace();
         }
