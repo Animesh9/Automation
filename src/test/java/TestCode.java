@@ -1,3 +1,5 @@
+import org.testng.annotations.Test;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,5 +23,22 @@ public class TestCode {
         for (Map.Entry<Character, Integer> entry : charFreq.entrySet()) {
             System.out.println(entry.getKey() + " = " + entry.getValue());
         }
+    }
+    @Test
+    void testing(){
+        String c = "Hello, How are you ?";
+        boolean var;
+        var = c.startsWith("hello");
+        System.out.println(var);
+    }
+    @Test
+    void trying(){
+        int a =10;
+        int b = 20;
+        int c = 30;
+
+        System.out.print(a);
+        System.out.println(b);
+        System.out.print(c);
     }
 }

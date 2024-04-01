@@ -92,4 +92,35 @@ public class Day50Challenge {
         download.click();
 
     }
+    @FindBy(id = "RESULT_TextField-1")
+    WebElement firstName;
+    @FindBy(id = "RESULT_TextField-2")
+    WebElement lastName;
+    @FindBy(id = "RESULT_TextField-3")
+    WebElement phone;
+    @FindBy(id = "RESULT_TextField-4")
+    WebElement country;
+    @FindBy(id = "RESULT_TextField-5")
+    WebElement city;
+    @FindBy(id = "RESULT_TextField-6")
+    WebElement email;
+    @FindBy(id = "RESULT_RadioButton-7_0")
+    WebElement male;
+    @FindBy(id = "RESULT_CheckBox-8_0")
+    WebElement sunday;
+    @FindBy(id = "RESULT_RadioButton-9")
+    WebElement dropDown;
+    public void day15(String fN, String lN){
+
+        actionsUtil.sendKeys(firstName,fN);
+        actionsUtil.sendKeys(lastName,lN);
+        actionsUtil.sendKeys(phone,"9999988888");
+        actionsUtil.sendKeys(country,"India");
+        actionsUtil.sendKeys(city,"Delhi");
+        actionsUtil.sendKeys(email,"abc@xyz.com");
+        actionsUtil.click(male);
+        actionsUtil.click(sunday);
+        actionsUtil.selectDropDownByValue(dropDown,"Radio-0");
+
+    }
 }

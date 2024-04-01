@@ -2,6 +2,12 @@ import Base.ConfigFileReader;
 import Base.ConfigReader;
 import Base.PageGenerator;
 import Base.TestBase;
+import com.google.zxing.*;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
+import com.google.zxing.common.HybridBinarizer;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.response.Response;
 import io.opentelemetry.exporter.logging.SystemOutLogRecordExporter;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -10,6 +16,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.checkerframework.common.value.qual.StaticallyExecutable;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -19,12 +26,15 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import utils.ActionUtil;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
@@ -44,7 +54,6 @@ public class Days50 extends TestBase {
     public void setDriver() throws InterruptedException {
 //        driver = setupDriver();
 
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\aniaj\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
         driver = new ChromeDriver();
         configFileReader = new ConfigFileReader();
         pageGenerator = new PageGenerator(driver);
@@ -59,7 +68,7 @@ public class Days50 extends TestBase {
 //        Entering text on disabled element
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("document.querySelector(\"#pass\").disabled = false");
-        this.driver.findElement(By.id("pass")).sendKeys("passwordData");
+        driver.findElement(By.id("pass")).sendKeys("passwordData");
     }
 
     @Test
@@ -390,8 +399,106 @@ public class Days50 extends TestBase {
         }
     }
 
-    @AfterMethod
+    @Test
+    void day14(){
+
+    }
+    @Test
+    void day15(){
+        Response response = RestAssured.given().get("https://randomuser.me/api/").then().extract().response();
+        String fN = response.getBody().jsonPath().get("results[0].name.first").toString();
+        System.out.println(fN);
+//        driver.get("https://fs2.formsite.com/meherpavan/form2/index.html?1537702596407");
+
+    }
+
+    @Test
+    void day16(){
+        driver.get("https://qaplayground.dev/apps/mouse-hover/");
+        Actions a = new Actions(driver);
+        WebElement card = driver.findElement(By.xpath("//div[@class='poster-container']/a"));
+        a.moveToElement(card).perform();
+        String price = driver.findElement(By.xpath("//p[@class='current-price']")).getText();
+        Assert.assertEquals("$24.96",price, "Verifying price");
+    }
+
+    @Test
+    void day17(){
+
+    }
+    @Test
+    void day18(){
+//        𝐂𝐫𝐞𝐚𝐭𝐞 𝐚𝐧 𝐚𝐮𝐭𝐨𝐦𝐚𝐭𝐢𝐨𝐧 𝐒𝐞𝐥𝐞𝐧𝐢𝐮𝐦 𝐭𝐞𝐬𝐭 𝐬𝐜𝐫𝐢𝐩𝐭 𝐭𝐡𝐚𝐭 𝐯𝐞𝐫𝐢𝐟𝐲 𝐛𝐮𝐭𝐭𝐨𝐧 𝐢𝐬 𝐯𝐢𝐬𝐢𝐛𝐥𝐞 𝐨𝐧 𝐬𝐜𝐫𝐨𝐥𝐥 𝐚𝐧𝐝 𝐮𝐬𝐞𝐫 𝐧𝐞𝐞𝐝 𝐭𝐨 𝐜𝐥𝐢𝐜𝐤 𝐨𝐧 𝐭𝐡𝐚𝐭 𝐛𝐮𝐭𝐭𝐨𝐧.
+        SoftAssert softAssert = new SoftAssert();
+        driver.get("https://qaplayground.dev/apps/covered/#");
+        String initialText = driver.findElement(By.id("info")).getText();
+        softAssert.assertEquals(initialText,"Click the button below", "Verify Initial Text");
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement youFoundMe = driver.findElement(By.id("fugitive"));
+
+        js.executeScript("arguments[0].scrollIntoView();", youFoundMe);
+        youFoundMe.click();
+        WebElement mission = driver.findElement(By.id("info"));
+        String verifyText = mission.getText();
+        js.executeScript("arguments[0].scrollIntoView();", mission);
+
+        softAssert.assertEquals(verifyText,"Mission accomplished","Verify Message");
+        softAssert.assertAll();
+
+    }
+
+    @Test
+    void day19(){
+
+        /*WebElement oneStar = driver.findElement(By.xpath("//div/label[1]"));
+        WebElement twoStar = driver.findElement(By.xpath("//div/label[2]"));
+        WebElement threeStar = driver.findElement(By.xpath("//div/label[3]"));
+        WebElement fourStar = driver.findElement(By.xpath("//div/label[4]"));
+        WebElement fiveStar = driver.findElement(By.xpath("//div/label[5]"));
+        oneStar.click();*/
+        /*twoStar.click();
+        System.out.println((String) js.executeScript(script, rating));*/
+        driver.get("https://qaplayground.dev/apps/rating/");
+        WebElement rating = driver.findElement(By.xpath("//span[@class='numb']"));
+        WebElement text = driver.findElement(By.xpath("//span[@class='text']"));
+        String script = "return window.getComputedStyle(arguments[0],':before').getPropertyValue('content')";
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        String ratingText = (String) js.executeScript(script, rating);
+        System.out.println(ratingText);
+        System.out.println((String) js.executeScript(script, text));
+        List<WebElement> ratingList = driver.findElements(By.xpath("//label"));
+
+        for(WebElement element: ratingList){
+            element.click();
+            System.out.println((String) js.executeScript(script, rating));
+            System.out.println((String) js.executeScript(script, text));
+
+        }
+
+
+    }
+
+    @Test
+    void day20() throws com.google.zxing.NotFoundException, IOException {
+        driver.get("https://qaplayground.dev/apps/qr-code-generator/");
+        String text = "I am an Automation QA";
+        driver.findElement(By.xpath("//input")).sendKeys(text);
+        driver.findElement(By.xpath("//button")).click();
+        String qrCodeFile = driver.findElement(By.xpath("//div[@class='qr-code']/img")).getAttribute("src");
+        String qrContent = decodeQRCode(qrCodeFile);
+        Assert.assertEquals(qrContent,text,"Verify Text");
+
+    }
+    private static String decodeQRCode(String qrCodeImage) throws IOException, NotFoundException, com.google.zxing.NotFoundException {
+        BufferedImage bufferedImage = ImageIO.read(new URL(qrCodeImage));
+        LuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
+        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+
+        Result result = new MultiFormatReader().decode(bitmap);
+        return result.getText();
+    }
+    /*@AfterMethod
     public void close(){
         driver.close();
-    }
+    }*/
 }
