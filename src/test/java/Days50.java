@@ -401,6 +401,15 @@ public class Days50 extends TestBase {
 
     @Test
     void day14(){
+        String urlDay14 = configReader.getURL("day14_url");
+        driver.get(urlDay14);
+        driver.switchTo().frame("trustarc_cm");
+        WebElement accept = driver.findElement(By.xpath("//a[@class='call']"));
+        actionsUtil.click(accept);
+        List<WebElement> searchList = driver.findElements(By.xpath("//input"));
+        for(WebElement element : searchList){
+            System.out.println(element.getText());
+        }
 
     }
     @Test
